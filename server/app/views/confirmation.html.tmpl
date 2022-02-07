@@ -1,0 +1,25 @@
+{{template "email" .}}
+
+{{define "title"}}帳號驗證步驟{{end}}
+
+{{define "content"}}
+<div class="email-content">
+  <div class="title" class="row">
+    <div class="column">
+      {{.Username}} 您好！
+    </div>
+  </div>
+  <section class="security-info row">
+    <div class="column">
+      您可以利用下面的連結確認您的帳戶的電子郵件：
+    </div>
+    <div class="column">
+      <a href="{{.ConfirmationUrl}}">確認帳號</a>
+    </div>
+
+    <div class="column">
+      如果您有任何問題，請聯絡我們<a href='email:support@ezcoin.cc'>Support</a><br/>感謝您！
+    </div>
+  </section>
+</div>
+{{end}}

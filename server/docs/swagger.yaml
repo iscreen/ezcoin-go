@@ -1,0 +1,903 @@
+basePath: /api
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  model.Currency:
+    properties:
+      createdAt:
+        description: Create Time
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      id:
+        description: gorm.Model
+        type: integer
+      kind:
+        type: integer
+      minFundingAmount:
+        type: number
+      name:
+        type: string
+      symbolName:
+        type: string
+      updatedAt:
+        description: Update Time
+        type: string
+    type: object
+  model.LendingStrategy:
+    properties:
+      createdAt:
+        description: Create Time
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      description:
+        type: string
+      id:
+        description: gorm.Model
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        description: Update Time
+        type: string
+    type: object
+  model.Plan:
+    properties:
+      createdAt:
+        description: Create Time
+        type: string
+      default:
+        type: boolean
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      description:
+        type: string
+      external_id:
+        type: string
+      id:
+        description: gorm.Model
+        type: integer
+      name:
+        type: string
+      period:
+        type: integer
+      robot_limit:
+        type: integer
+      trial:
+        type: boolean
+      updatedAt:
+        description: Update Time
+        type: string
+    type: object
+  model.RobotServer:
+    properties:
+      createdAt:
+        description: Create Time
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      id:
+        description: gorm.Model
+        type: integer
+      ip:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        description: Update Time
+        type: string
+    type: object
+  model.ScheduleOrder:
+    properties:
+      amount:
+        type: number
+      cancelFromFunding:
+        type: boolean
+      createdAt:
+        description: Create Time
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      fastTrade:
+        type: boolean
+      fromCurrency:
+        $ref: '#/definitions/model.Currency'
+      fromCurrencyId:
+        type: integer
+      id:
+        description: gorm.Model
+        type: integer
+      meta:
+        type: string
+      orderId:
+        type: integer
+      orderStatus:
+        type: string
+      orderSymbol:
+        type: string
+      orderType:
+        type: string
+      price:
+        type: number
+      processMessage:
+        type: string
+      status:
+        type: string
+      toCurrency:
+        $ref: '#/definitions/model.Currency'
+      toCurrencyId:
+        type: integer
+      transferToFunding:
+        type: boolean
+      updatedAt:
+        description: Update Time
+        type: string
+      user:
+        $ref: '#/definitions/model.User'
+      userId:
+        type: integer
+    type: object
+  model.User:
+    properties:
+      apiKey:
+        type: string
+      apiSecret:
+        type: string
+      confirmed_at:
+        type: string
+      createdAt:
+        description: Create Time
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      email:
+        type: string
+      expiredAt:
+        type: string
+      id:
+        description: gorm.Model
+        type: integer
+      plan:
+        $ref: '#/definitions/model.Plan'
+        description: '`gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`'
+      planId:
+        type: integer
+      updatedAt:
+        description: Update Time
+        type: string
+      userRobotsCount:
+        type: integer
+      username:
+        type: string
+    type: object
+  model.UserRobot:
+    properties:
+      activated:
+        type: boolean
+      apiKey:
+        type: string
+      apiSecret:
+        type: string
+      createdAt:
+        description: Create Time
+        type: string
+      currency:
+        $ref: '#/definitions/model.Currency'
+      currencyId:
+        type: integer
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+        description: Delete Time
+      fixRate:
+        type: number
+      fixRatePeriod:
+        type: integer
+      hidden:
+        type: boolean
+      id:
+        description: gorm.Model
+        type: integer
+      intervals:
+        type: integer
+      lendingStrategy:
+        $ref: '#/definitions/model.LendingStrategy'
+      lendingStrategyId:
+        type: integer
+      maxAmount:
+        type: number
+      minRate:
+        type: number
+      numLast_intervals:
+        type: integer
+      period:
+        type: integer
+      randomRangeHigh:
+        type: number
+      randomRangeLow:
+        type: number
+      rangeAmount:
+        type: number
+      rangeHighRate:
+        type: number
+      rangeLowRate:
+        type: number
+      rangeNum:
+        type: integer
+      rangeRatePeriod:
+        type: integer
+      reservedAmount:
+        type: number
+      robotServer:
+        $ref: '#/definitions/model.RobotServer'
+      robotServerId:
+        type: integer
+      updatedAt:
+        description: Update Time
+        type: string
+      user:
+        $ref: '#/definitions/model.User'
+      userId:
+        type: integer
+    required:
+    - currencyId
+    - lendingStrategyId
+    - userId
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+  service.CreateCurrency:
+    properties:
+      kind:
+        default: 0
+        maximum: 2
+        minimum: 0
+        type: integer
+      minFundingAmount:
+        type: number
+      name:
+        type: string
+      symbolName:
+        type: string
+    required:
+    - kind
+    - minFundingAmount
+    - name
+    - symbolName
+    type: object
+  service.ForgetPassword:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  service.Login:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  service.Register:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      passwordConfirmation:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - passwordConfirmation
+    - username
+    type: object
+  service.ResendConfirmation:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  service.ResetPassword:
+    properties:
+      password:
+        type: string
+      resetPasswordToken:
+        type: string
+    required:
+    - password
+    - resetPasswordToken
+    type: object
+host: localhost:8888
+info:
+  contact:
+    email: support@ezcoin.cc
+    name: ServerMIS
+    url: https://ezcoin.cc/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://ezcoin.cc/terms/
+  title: EZCoin API
+  version: "1.0"
+paths:
+  /v1/confirmation:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ResendConfirmation
+        in: body
+        name: param
+        required: true
+        schema:
+          $ref: '#/definitions/service.ResendConfirmation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User resend confirmation instruction
+      tags:
+      - Auth
+  /v1/currencies:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/model.Currency'
+                type: object
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all currencies
+      tags:
+      - Currency
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Currency
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/service.CreateCurrency'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Currency'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Currency
+      tags:
+      - Currency
+  /v1/currencies/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Currency ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Currency'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Currency
+      tags:
+      - Currency
+  /v1/lending_strategies/{id}:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.LendingStrategy'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Lending Strategies
+      tags:
+      - LendingStrategy
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Login
+      tags:
+      - Auth
+  /v1/my/last_month_margin_funding_payments_summary:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update user
+      tags:
+      - User
+  /v1/my/robots:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/model.UserRobot'
+                type: object
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all user's robots
+      tags:
+      - User
+  /v1/my/schedule_orders:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: Object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create schedule orders
+      tags:
+      - ScheduleOrder
+  /v1/my/schedule_orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: Object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create schedule orders
+      tags:
+      - ScheduleOrder
+  /v1/my/user_robots:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserRobot'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create user's robot
+      tags:
+      - User
+  /v1/my/user_robots/{id}:
+    patch:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserRobot'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update user's robot
+      tags:
+      - User
+  /v1/password:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ForgetPassword
+        in: body
+        name: param
+        required: true
+        schema:
+          $ref: '#/definitions/service.ForgetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User send forget password instruction
+      tags:
+      - Auth
+  /v1/reset_password:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: ResetPassword
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.ResetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User update password via forget password token
+      tags:
+      - Auth
+  /v1/sign_up:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Register
+        in: body
+        name: param
+        required: true
+        schema:
+          $ref: '#/definitions/service.Register'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User registration
+      tags:
+      - Auth
+  /v1/user_robots:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/model.UserRobot'
+                type: object
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all user's robots
+      tags:
+      - UserRobot
+  /v1/v1/my/last_month_margin_funding_payments:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  additionalProperties:
+                    items:
+                      items:
+                        type: object
+                      type: array
+                    type: array
+                  type: object
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user last month margin funding payments
+      tags:
+      - Staticstic
+  /v1/v1/my/last_month_margin_funding_payments_summary:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  additionalProperties:
+                    type: number
+                  type: object
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user last month margin funding payments summary
+      tags:
+      - Staticstic
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: x-token
+    type: apiKey
+swagger: "2.0"

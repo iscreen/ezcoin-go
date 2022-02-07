@@ -1,0 +1,36 @@
+{{template "email" .}}
+
+{{define "title"}}登入{{end}}
+
+{{define "content"}}
+<div class="email-content">
+  <div class="title" class="row">
+    <div class="greeting">
+      親愛的用戶您好：
+    </div>
+    <div class="subtitle column">
+      您剛剛成功登入了，以下為登入的細節：
+    </div>
+  </div>
+  <section class="security-info row">
+    <div class="column">
+      電子郵件：{{.Email}}
+    </div class="column">
+    <div class="column">
+      IP 地址： {{.IP}}
+    </div>
+    <div class="column">
+      登入設備： {{.Machine}}
+    </div>
+    <div class="column">
+      登入時間：{{.LoginAt}}
+    </div>
+  </section>
+
+  <p>
+    注意：如果這不是您本操作，請立即寫信至 service@ezcoin.cc 或撥打客服專線聯繫客服人員
+
+    此信件由系統自動發出，請必直接回覆。有問題請與<a href="www.ezcoin.cc">我們聯繫</a>
+  </p>
+</div>
+{{end}}
